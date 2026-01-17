@@ -68,3 +68,47 @@ query userRecentSubmissions($username: String!, $limit: Int!) {
   }
 }
 """
+
+# 5. Contest Ranking & Performance
+USER_CONTEST_QUERY = """
+query userContestRankingInfo($username: String!) {
+  userContestRanking(username: $username) {
+    attendedContestsCount
+    rating
+    globalRanking
+    totalParticipants
+    topPercentage
+    badge {
+      name
+    }
+  }
+}
+"""
+
+# 6. Global Problem List
+PROBLEMS_LIST_QUERY = """
+query problemsetQuestionList($categorySlug: String, $limit: Int, $skip: Int, $filters: QuestionListFilterInput) {
+  problemsetQuestionList(categorySlug: $categorySlug, limit: $limit, skip: $skip, filters: $filters) {
+    total: totalNum
+    questions: questions {
+      questionId
+      title
+      titleSlug
+      acRate
+      difficulty
+      status
+      isFavor
+      hasSolution
+      hasVideoSolution
+      paidOnly: isPaidOnly
+      frontendQuestionId: questionFrontendId
+      topicTags {
+        name
+        id
+        slug
+      }
+    }
+  }
+}
+"""
+

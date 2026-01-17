@@ -51,5 +51,22 @@ def get_submissions(username):
     data = make_leetcode_request(q.USER_SUBMISSIONS_QUERY, {"username": username, "limit": limit})
     return handle_response(data, ["data", "recentSubmissionList"])
 
+@app.route('/<username>/contests', methods=['GET'])
+def get_contests(username):
+    data = make_leetcode_request(q.USER_CONTEST_QUERY, {"username": username})
+    return handle_response(data, ["data", "userContestRanking"])
+
+@app.route('/problems', methods=['GET'])
+def get_problems():
+    limit = request.args.get('limit', default=20, type=int)
+    skip = request.args.get('skip', default=0, type=int)
+    data = make_leetcode_request(q.PROBLEMS_LIST_QUERY, {"limit": limit, "skip": skip})
+    return handle_response(data, ["data", "problemsetQuestionList"])
+
+@app.route('/daily', methods=['GET'])
+def get_daily():
+    data = make_leetcode_request(q.DAILY_QUESTION_QUERY)
+    return handle_response(data, ["data", "activeDailyCodingChallengeQuestion"])
+
 if __name__ == "__main__":
     app.run(port=Config.PORT, debug=Config.DEBUG)
