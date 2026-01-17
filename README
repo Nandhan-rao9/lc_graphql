@@ -1,4 +1,0 @@
-# LeetCode REST API
-A lightweight **Flask** wrapper that simplifies LeetCode data access. This project converts LeetCode's complex internal GraphQL queries into clean, user-friendly **RESTful endpoints**—eliminating the need for manual GraphQL boilerplate in your frontend.
-
-Designed  to power the **LC_Tracker** ecosystem.
