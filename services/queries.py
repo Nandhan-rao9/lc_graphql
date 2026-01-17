@@ -134,3 +134,14 @@ query questionOfToday {
   }
 }
 """
+
+USER_AC_SUBMISSIONS_QUERY = """
+query userRecentAcSubmissions($username: String!, $limit: Int!) {
+  recentAcSubmissionList(username: $username, limit: $limit) {
+    id
+    title
+    titleSlug
+    timestamp
+  }
+}
+"""

@@ -86,5 +86,19 @@ def get_daily():
     data = make_leetcode_request(q.DAILY_QUESTION_QUERY)
     return handle_response(data, ["data", "activeDailyCodingChallengeQuestion"])
 
+@app.route('/<username>/ac-submissions', methods=['GET'])
+def get_user_ac_submissions(username):
+    # Default to 20 submissions if limit is not provided
+    limit = request.args.get('limit', default=20, type=int)
+    
+    variables = {
+        "username": username,
+        "limit": limit
+    }
+    
+    data = make_leetcode_request(q.USER_AC_SUBMISSIONS_QUERY, variables)
+    
+    return handle_response(data, ["data", "recentAcSubmissionList"])
+
 if __name__ == "__main__":
     app.run(port=Config.PORT, debug=Config.DEBUG)
