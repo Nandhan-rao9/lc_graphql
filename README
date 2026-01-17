@@ -1,1 +1,80 @@
-This is a graphql - rest end point written separately and clearly to help with lc_tracker
+# LeetCode REST API
+
+A lightweight **Flask** wrapper that simplifies LeetCode data access. This project converts LeetCode's complex internal GraphQL queries into clean, user-friendly **RESTful endpoints**—eliminating the need for manual GraphQL boilerplate in your frontend.
+
+Designed  to power the **LC_Tracker** ecosystem.
+
+---
+
+## 🚀 Features
+
+* **Zero Boilerplate:** Fetch profile stats, badges, and contest data with simple `GET` requests.
+* **Auto-Parsing:** Automatically converts LeetCode's stringified JSON (like the submission calendar) into proper dictionaries.
+
+---
+
+## 📂 Folder Structure
+
+* `services/queries.py` — Centralized bank of LeetCode GraphQL query strings.
+* `services/leetcode_client.py` — The core "engine" that handles requests and headers.
+* `app.py` — API entry point and route handlers.
+* `config.py` — Environment and global configuration.
+
+---
+
+## 🛠️ Installation
+
+1. **Clone the repository:**
+```bash
+git clone https://github.com/YourUsername/leetcode-rest-py.git
+cd leetcode-rest-py
+
+```
+
+
+2. **Setup Virtual Environment:**
+```bash
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+```
+
+
+3. **Install Dependencies:**
+```bash
+pip install -r requirements.txt
+
+```
+
+
+4. **Environment Setup:**
+Create a `.env` file in the root:
+```env
+PORT=9009
+DEBUG=True
+
+```
+
+
+5. **Run the Server:**
+```bash
+python app.py
+
+```
+
+
+
+---
+
+## 📖 API Endpoints
+
+| Endpoint | Description |
+| --- | --- |
+| `GET /:username` | Basic profile, ranking, and bio. |
+| `GET /:username/badges` | All earned and upcoming profile badges. |
+| `GET /:username/calendar` | Parsed submission heatmap (JSON format). |
+| `GET /:username/ac-submissions` | List of recently **Solved (AC)** problems. |
+| `GET /:username/contests` | Global contest rating and percentile. |
+| `GET /problems?limit=50` | Paginated list of all LeetCode problems. |
+
+---
