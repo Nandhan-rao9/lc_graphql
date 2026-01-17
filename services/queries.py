@@ -55,3 +55,16 @@ query userSearchCalendar($username: String!, $year: Int) {
   }
 }
 """
+
+# 4. Recent Submissions (Public)
+USER_SUBMISSIONS_QUERY = """
+query userRecentSubmissions($username: String!, $limit: Int!) {
+  recentSubmissionList(username: $username, limit: $limit) {
+    title
+    titleSlug
+    timestamp
+    statusDisplay
+    lang
+  }
+}
+"""
