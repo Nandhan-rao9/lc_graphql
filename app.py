@@ -81,6 +81,10 @@ def get_problems():
     
     return handle_response(data, ["data", "problemsetQuestionList"])
 
+@app.route('/daily', methods=['GET'])
+def get_daily():
+    data = make_leetcode_request(q.DAILY_QUESTION_QUERY)
+    return handle_response(data, ["data", "activeDailyCodingChallengeQuestion"])
 
 if __name__ == "__main__":
     app.run(port=Config.PORT, debug=Config.DEBUG)

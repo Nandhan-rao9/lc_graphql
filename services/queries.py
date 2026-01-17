@@ -120,3 +120,17 @@ query problemsetQuestionList(
   }
 }
 """
+DAILY_QUESTION_QUERY = """
+query questionOfToday {
+  activeDailyCodingChallengeQuestion {
+    date
+    link
+    question {
+      questionId
+      title
+      difficulty
+      content
+    }
+  }
+}
+"""
