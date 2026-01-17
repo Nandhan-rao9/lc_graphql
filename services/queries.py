@@ -86,12 +86,21 @@ query userContestRankingInfo($username: String!) {
 """
 
 # 6. Global Problem List
-PROBLEMS_LIST_QUERY = """
-query problemsetQuestionList($categorySlug: String, $limit: Int, $skip: Int, $filters: QuestionListFilterInput) {
-  problemsetQuestionList(categorySlug: $categorySlug, limit: $limit, skip: $skip, filters: $filters) {
+GET_PROBLEMS_QUERY = """
+query problemsetQuestionList(
+  $categorySlug: String, 
+  $limit: Int, 
+  $skip: Int, 
+  $filters: QuestionListFilterInput
+) {
+  problemsetQuestionList: questionList(
+    categorySlug: $categorySlug
+    limit: $limit
+    skip: $skip
+    filters: $filters
+  ) {
     total: totalNum
-    questions: questions {
-      questionId
+    questions: data {
       title
       titleSlug
       acRate
@@ -111,4 +120,3 @@ query problemsetQuestionList($categorySlug: String, $limit: Int, $skip: Int, $fi
   }
 }
 """
-

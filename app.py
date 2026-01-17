@@ -10,15 +10,23 @@ CORS(app)
 
 # Helper to handle errors
 def handle_response(data, key_path):
-    if not data or "errors" in data:
-        return jsonify({"error": "LeetCode API Error", "details": data.get("errors")}), 500
+    if data is None:
+        return jsonify({
+            "error": "Connection Error", 
+            "message": "Could not reach LeetCode API. Check your internet or if LeetCode is down."
+        }), 503
+
+    if "errors" in data:
+        return jsonify({
+            "error": "LeetCode GraphQL Error", 
+            "details": data.get("errors")
+        }), 400
     
-    # Traverse the nested dictionary (e.g., ["data", "matchedUser"])
     result = data
     for key in key_path:
-        result = result.get(key, {})
+        result = result.get(key) 
         if result is None:
-            return jsonify({"error": "Not Found"}), 404
+            return jsonify({"error": "Resource not found on LeetCode"}), 404
             
     return jsonify(result)
 
@@ -58,15 +66,21 @@ def get_contests(username):
 
 @app.route('/problems', methods=['GET'])
 def get_problems():
-    limit = request.args.get('limit', default=20, type=int)
+    category_slug = request.args.get('categorySlug', default="", type=str)
+    limit = request.args.get('limit', default=50, type=int)
     skip = request.args.get('skip', default=0, type=int)
-    data = make_leetcode_request(q.PROBLEMS_LIST_QUERY, {"limit": limit, "skip": skip})
+    
+    variables = {
+        "categorySlug": category_slug, 
+        "limit": limit, 
+        "skip": skip, 
+        "filters": {} 
+    }
+    
+    data = make_leetcode_request(q.GET_PROBLEMS_QUERY, variables)
+    
     return handle_response(data, ["data", "problemsetQuestionList"])
 
-@app.route('/daily', methods=['GET'])
-def get_daily():
-    data = make_leetcode_request(q.DAILY_QUESTION_QUERY)
-    return handle_response(data, ["data", "activeDailyCodingChallengeQuestion"])
 
 if __name__ == "__main__":
     app.run(port=Config.PORT, debug=Config.DEBUG)
