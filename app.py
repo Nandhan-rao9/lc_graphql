@@ -26,7 +26,6 @@ app.register_blueprint(user_ingest_bp)
 
 # -------------------- Helpers --------------------
 
-
 def handle_response(data, key_path):
     if data is None:
         return jsonify({
