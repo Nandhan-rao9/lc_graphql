@@ -1,34 +1,51 @@
 # services/leetcode_client.py
 import requests
-from config import Config
+import os
+from dotenv import load_dotenv
 
-def make_leetcode_request(query, variables=None):
-    payload = {
-        "query": query,
-        "variables": variables or {}
-    }
-    
-    # These headers are critical to bypass Cloudflare and LeetCode's WAF
-    headers = {
-        "Content-Type": "application/json",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Referer": "https://leetcode.com/problemset/all/",
-        "Origin": "https://leetcode.com",
-        "Accept": "*/*",
-        "Accept-Language": "en-US,en;q=0.9",
-    }
+load_dotenv()
 
-    try:
-        # Use a timeout of 10-15 seconds for larger queries like the problem list
-        response = requests.post(
-            Config.LEETCODE_URL, 
-            json=payload, 
-            headers=headers, 
-            timeout=15 
-        )
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        print(f"--- Connection Error Log ---")
-        print(f"Reason: {e}")
-        return None
+class LeetCodeClient:
+    def __init__(self):
+        self.session = requests.Session()
+        self.url = "https://leetcode.com/graphql"
+
+        self.session_id = os.getenv("LEETCODE_SESSION")
+        self.csrf_token = os.getenv("CSRF_TOKEN")
+
+        if not self.session_id or not self.csrf_token:
+            raise RuntimeError(
+                "Missing LeetCode auth tokens. "
+                "Set LEETCODE_SESSION and CSRF_TOKEN in .env"
+            )
+
+        # Cookies (browser-equivalent)
+        self.session.cookies.set("LEETCODE_SESSION", self.session_id)
+        self.session.cookies.set("csrftoken", self.csrf_token)
+
+        # Headers
+        self.headers = {
+            "Content-Type": "application/json",
+            "Referer": "https://leetcode.com",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+            "X-CSRFToken": self.csrf_token
+        }
+
+    def fetch(self, query, variables=None):
+        payload = {
+            "query": query,
+            "variables": variables or {}
+        }
+
+        try:
+            response = self.session.post(
+                self.url,
+                json=payload,
+                headers=self.headers,
+                timeout=15
+            )
+            response.raise_for_status()
+            return response.json()
+        except Exception as e:
+            print(f"[LeetCodeClient] Request failed: {e}")
+            return None

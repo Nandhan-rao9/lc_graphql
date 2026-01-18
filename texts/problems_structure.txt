@@ -1,0 +1,33 @@
+"acRate": 71.97481850090706,
+      "difficulty": "Medium",
+      "frontendQuestionId": "49",
+      "hasSolution": true,
+      "hasVideoSolution": true,
+      "isFavor": false,
+      "paidOnly": false,
+      "status": "ac",
+      "title": "Group Anagrams",
+      "titleSlug": "group-anagrams",
+      "topicTags": [
+        {
+          "id": "VG9waWNUYWdOb2RlOjU=",
+          "name": "Array",
+          "slug": "array"
+        },
+        {
+          "id": "VG9waWNUYWdOb2RlOjY=",
+          "name": "Hash Table",
+          "slug": "hash-table"
+        },
+        {
+          "id": "VG9waWNUYWdOb2RlOjEw",
+          "name": "String",
+          "slug": "string"
+        },
+        {
+          "id": "VG9waWNUYWdOb2RlOjYxMDQ5",
+          "name": "Sorting",
+          "slug": "sorting"
+        }
+      ]
+    },
