@@ -1,3 +1,5 @@
+# utils/db.py
+
 from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
@@ -12,3 +14,11 @@ if not MONGO_URI:
 
 client = MongoClient(MONGO_URI)
 db = client[DB_NAME]
+
+# ✅ Canonical problems collection
+problems_master = db["problems_master"]
+
+# ✅ User-scoped solved collection factory
+def user_solved_col(username: str):
+    safe = username.lower().replace("-", "_")
+    return db[f"user_{safe}_solved"]

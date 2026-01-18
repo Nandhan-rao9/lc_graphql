@@ -146,3 +146,43 @@ query userRecentAcSubmissions($username: String!, $limit: Int!) {
 }
 """
 
+USER_SUBMISSION_LIST_QUERY = """
+query submissionList($offset: Int!, $limit: Int!) {
+  submissionList(offset: $offset, limit: $limit) {
+    hasNext
+    submissions {
+      title
+      titleSlug
+      statusDisplay
+      timestamp
+      lang
+    }
+  }
+}
+"""
+
+GET_PROBLEMS_QUERY = """
+query problemsetQuestionList(
+  $categorySlug: String,
+  $limit: Int,
+  $skip: Int,
+  $filters: QuestionListFilterInput
+) {
+  problemsetQuestionList: questionList(
+    categorySlug: $categorySlug
+    limit: $limit
+    skip: $skip
+    filters: $filters
+  ) {
+    questions: data {
+      title
+      titleSlug
+      difficulty
+      topicTags {
+        name
+        slug
+      }
+    }
+  }
+}
+"""

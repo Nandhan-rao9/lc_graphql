@@ -5,10 +5,11 @@ from datetime import datetime, timedelta
 import json
 
 from config import Config
+from routes.ingest_csv import csv_ingest_bp
 from services.leetcode_client import LeetCodeClient
 import services.queries as q
 from routes.ingest import ingest_bp
-
+from routes.ingest_user import user_ingest_bp
 
 load_dotenv()
 
@@ -20,6 +21,8 @@ leetcode_client = LeetCodeClient()
 app.config["LEETCODE_CLIENT"] = leetcode_client
 
 app.register_blueprint(ingest_bp)
+app.register_blueprint(csv_ingest_bp)
+app.register_blueprint(user_ingest_bp)
 
 # -------------------- Helpers --------------------
 
